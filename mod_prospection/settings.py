@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.home",
     "apps.users",
+    "apps.empresas",
+    "apps.campanha",
 ]
 
 MIDDLEWARE = [
@@ -144,3 +147,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'apps.users.backends.ModelBackend',
 )
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Mod Admin",
+    "site_header": "Mod Admin",
+}
