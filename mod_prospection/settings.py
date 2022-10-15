@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.empresas",
     "apps.campanha",
+    "apps.emailtemplate",
 ]
 
 MIDDLEWARE = [
@@ -83,11 +84,12 @@ WSGI_APPLICATION = "mod_prospection.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+if DEBUG:
+    default_dburl = config('DEV_DATABASE_URL')
+else:
+    default_dburl = config('PROD_DATABASE_URL')
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
 }
 
 
@@ -152,3 +154,10 @@ JAZZMIN_SETTINGS = {
     "site_title": "Mod Admin",
     "site_header": "Mod Admin",
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_Host')
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config('EMAIL_Host_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_Host_PASSWORD')
+EMAIL_USE_SSL = False
