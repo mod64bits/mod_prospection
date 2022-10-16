@@ -4,6 +4,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.db import models
 from django.template import Context
 
+
 class EmailTemplate(models.Model):
     """
     Email templates get stored in database so that admins can
