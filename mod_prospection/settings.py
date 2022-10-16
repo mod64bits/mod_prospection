@@ -153,6 +153,9 @@ AUTHENTICATION_BACKENDS = (
 JAZZMIN_SETTINGS = {
     "site_title": "Mod Admin",
     "site_header": "Mod Admin",
+    "site_brand": "Painel Admin",
+    "welcome_sign": "Login Mod Prospection",
+    "copyright": "mod64bits",
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
