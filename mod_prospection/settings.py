@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+#celery -A mod_prospection beat -l INFO --django_celery_beat.schedulers:DatabaseScheduler
 INSTALLED_APPS = [
     'jazzmin',
     "django.contrib.admin",
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_results",
+    "django_celery_beat",
 
     "apps.core",
     "apps.home",
@@ -150,6 +152,13 @@ AUTHENTICATION_BACKENDS = (
     'apps.users.backends.ModelBackend',
 )
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_mail',
+    }
+}
+
 JAZZMIN_SETTINGS = {
     "site_title": "Mod Admin",
     "site_header": "Mod Admin",
@@ -164,3 +173,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = config('EMAIL_Host_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_Host_PASSWORD')
 EMAIL_USE_SSL = False
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_RESULT_BACKEND = 'django-db'
+

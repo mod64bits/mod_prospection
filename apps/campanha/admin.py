@@ -1,5 +1,9 @@
+from celery import shared_task
 from django.contrib import admin
 from django.contrib import messages
+
+from mod_prospection.celery import app
+from .tasks import send_mail
 from .models import Campanha
 from .models import EmailTemplate
 
@@ -24,14 +28,12 @@ class CampanhaAdmin(admin.ModelAdmin):
 
    # @admin.action(description='Enviar Campanha')
     def enviar_campanha(self, request, queryset):
+        contador = 0
         for item in queryset:
+
             for email in item.envios.all():
-                EmailTemplate.send(
-                    item.tipo.template_key, {
-                        "mensagem": item.tipo.plain_text,
-                    }
-                    , emails=[email.email],
-                )
+                contador += 1
+                send_mail.delay(item.tipo.template_key, item.tipo.plain_text, email.email, contador)
         self.message_user(request, "Campanha Processada com Sucesso!", messages.SUCCESS)
 
     enviar_campanha.short_description = "Enviar Campanha"
